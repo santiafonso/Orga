@@ -1,0 +1,13 @@
+loop1:
+    
+	mov x1, HALF_WIDTH        // X Size
+
+loop0:
+	stur w11,[x0]  // Colorear el pixel N
+	add x0,x0,4    // Siguiente pixel
+    sub x1,x1,1    // Decrementar contador X
+	cbnz x1,loop0  // Si no terminó la fila, salto
+	add x0,x0,1280
+    sub x2,x2,1    // Decrementar contador Y
+	cbnz x2,loop1  // Si no es la última fila, salto
+    
