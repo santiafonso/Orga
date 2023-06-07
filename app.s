@@ -59,7 +59,7 @@ main:
 
 			mov x1,50									//seteo mis x1,x2 TAMAÑO
 			mov x2,100
-			mov x3,200									//seteo de donde quiero que empieze a dibujar  X3=Y X4=X 
+			mov x3,150									//seteo de donde quiero que empieze a dibujar  X3=Y X4=X 
 			mov x4,350
 			movz x11, 0x00, lsl 16	    //color rojo
       movk x11, 0xffff, lsl 00 
@@ -84,7 +84,7 @@ main:
       movk x11, 0x3333, lsl 00 
 			bl direccion
 			bl circulo
-
+ 
 	
 			mov x1,50									//radio
 			mov x3,100									//centro
