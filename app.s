@@ -54,35 +54,25 @@ main:
 
 //---segunda diagonal
 
-			mov x1,100									//seteo mis x1,x2 TAMAÑO
+			mov x1,50									//seteo mis x1,x2 TAMAÑO
 			mov x2,100
 			mov x3,200									//seteo de donde quiero que empieze a dibujar  X3=Y X4=X 
-			mov x4,300
-			movz x11, 0xfa, lsl 16	    //color rojo
-      movk x11, 0xff00, lsl 00 
+			mov x4,350
+			movz x11, 0x00, lsl 16	    //color rojo
+      movk x11, 0xffff, lsl 00 
 			bl direccion								//calcula el punto donde empieza a dibujar
-			bl cuadrado
+			bl circulo
 
 
 			mov x1,100									//seteo mis x1,x2 TAMAÑO
 			mov x2,100
 			mov x3,300									//seteo de donde quiero que empieze a dibujar  X3=Y X4=X 
-			mov x4,200
+			mov x4,50
 			movz x11, 0xfA, lsl 16	    //color rojo
-      movk x11, 0xAF00, lsl 00 
+      movk x11, 0xffff, lsl 00 
 			bl direccion								//calcula el punto donde empieza a dibujar
 			bl cuadrado
 
-//----- triangulo
-
-			mov x1,100									//seteo mis x1,x2 TAMAÑO
-			mov x2,100
-			mov x3,100										//seteo de donde quiero que empieze a dibujar  X3=Y X4=X 
-			mov x4,200
-			movz x11, 0x00, lsl 16	    //color rojo
-      movk x11, 0x00ff, lsl 00 
-			bl direccion								//calcula el punto donde empieza a dibujar
-			bl triangulo
 
 			mov x1,50									//radio
 			mov x3,100									//centro
@@ -91,16 +81,6 @@ main:
       movk x11, 0x3333, lsl 00 
 			bl direccion
 			bl circulo
-			
-
-			mov x1,100									//seteo mis x1,x2 TAMAÑO
-			mov x2,100
-			mov x3,0									//seteo de donde quiero que empieze a dibujar  X3=Y X4=X 
-			mov x4,300
-			movz x11, 0xff, lsl 16	    //color rojo
-      movk x11, 0xffff, lsl 00 
-			bl direccion								//calcula el punto donde empieza a dibujar
-			bl cuadrado
 
 	
 			mov x1,50									//radio
@@ -111,12 +91,46 @@ main:
 			bl direccion
 			bl circulo
 
+		//-----------------------------------TRIANGULOS--------------------------------------------//
+
+			mov x1,100									//seteo mis x1,x2 TAMAÑO
+			mov x2,100
+			mov x3,349										//seteo de donde quiero que empieze a dibujar  X3=Y X4=X 
+			mov x4,350
+			movz x11, 0xff, lsl 16	    //color rojo
+      movk x11, 0x0000, lsl 00 
+			bl direccion								//calcula el punto donde empieza a dibujar
+			bl trianguloa
 
 
+			mov x1,100									//seteo mis x1,x2 TAMAÑO
+			mov x2,100
+			mov x3,250										//seteo de donde quiero que empieze a dibujar  X3=Y X4=X 
+			mov x4,250
+			movz x11, 0x00, lsl 16	    //color rojo
+      movk x11, 0xff00, lsl 00 
+			bl direccion								//calcula el punto donde empieza a dibujar
+			bl triangulob
 
 
+			mov x1,100									//seteo mis x1,x2 TAMAÑO
+			mov x2,100
+			mov x3,150										//seteo de donde quiero que empieze a dibujar  X3=Y X4=X 
+			mov x4,250
+			movz x11, 0x00, lsl 16	    //color rojo
+      movk x11, 0x00ff, lsl 00 
+			bl direccion								//calcula el punto donde empieza a dibujar
+			bl trianguloc
 
 
+			mov x1,100									//seteo mis x1,x2 TAMAÑO
+			mov x2,100
+			mov x3,51										//seteo de donde quiero que empieze a dibujar  X3=Y X4=X 
+			mov x4,350
+			movz x11, 0xff, lsl 16	    //color rojo
+      movk x11, 0xffff, lsl 00 
+			bl direccion								//calcula el punto donde empieza a dibujar
+			bl triangulo
 
 
 
@@ -200,7 +214,7 @@ ret
 
 //--------------------------------------------------------FIN-CUADRADO--------------------------------------------------------------//
 
-//--------------------------------------------------------TRIANGULO-RECTANGULO--------------------------------------------------------------//
+//--------------------------------------------------------TRIANGULO-RECTANGULO-1--------------------------------------------------------------//
 
 triangulo:
 		mov x17,xzr
@@ -231,8 +245,103 @@ loop6:
 ret
 
 
-//--------------------------------------------------------FIN-TRIANGULO-RECTANGULO--------------------------------------------------------------//
+//--------------------------------------------------------FIN-TRIANGULO-RECTANGULO-1---------------------------------------------------------------//
 
+
+//--------------------------------------------------------TRIANGULO-RECTANGULO-2--------------------------------------------------------------//
+
+trianguloa:
+		mov x17,xzr
+		mov x16,xzr
+	  mov x14, x2        		// salvo Y Size
+
+loop5a:
+
+    mov x15, x1         	// salvo X Size
+		sub x15,x15,x16
+
+loop6a:
+
+    stur w11,[x0] 				// Colorear el pixel N
+    add x0,x0,4   				// Siguiente pixel
+    sub x15,x15,1    			// Decrementar contador X
+    cbnz x15,loop6a  			// Si no terminó la fila, salto
+		
+		sub x14,x14,1    			// Decrementar contador Y
+		msub x0,x19,x1,x0			//vuelvo al princio de la linea que estoy pintado x0=x0-x1*4
+		msub x0,x21,x19,x0  	//x0=x0+640*4
+		add x16,x16,1
+	  mul x17,x16,x19
+		add x0,x0,x17
+	  cbnz x14,loop5a  			// Si no es la última fila, saltostur w11,[x20]
+
+		mov x0,x20
+ret
+
+
+//--------------------------------------------------------FIN-TRIANGULO-RECTANGULO-2--------------------------------------------------------------//
+
+//--------------------------------------------------------TRIANGULO-RECTANGULO-3--------------------------------------------------------------//
+
+triangulob:
+		mov x17,xzr
+		mov x16,x1
+	  mov x14, x2        		// salvo Y Size
+		mov x18,1
+loop5b:
+
+    mov x15, x18         	// salvo X Size
+
+loop6b:
+
+    stur w11,[x0] 				// Colorear el pixel N
+    add x0,x0,4   				// Siguiente pixel
+    sub x15,x15,1    			// Decrementar contador X
+    cbnz x15,loop6b  			// Si no terminó la fila, salto
+		
+		sub x14,x14,1    			// Decrementar contador Y
+		msub x0,x19,x18,x0			//vuelvo al princio de la linea que estoy pintado x0=x0-x1*4
+		madd x0,x21,x19,x0  	//x0=x0+640*4
+		add x18,x18,1
+	  
+	  cbnz x14,loop5b  			// Si no es la última fila, saltostur w11,[x20]
+
+		mov x0,x20
+ret
+
+
+//--------------------------------------------------------FIN-TRIANGULO-RECTANGULO-3--------------------------------------------------------------//
+
+//--------------------------------------------------------TRIANGULO-RECTANGULO-4--------------------------------------------------------------//
+
+trianguloc:
+		mov x17,xzr
+		mov x16,x1
+	  mov x14, x2        		// salvo Y Size
+		mov x18,1
+loop5c:
+
+    mov x15, x18         	// salvo X Size
+
+loop6c:
+
+    stur w11,[x0] 				// Colorear el pixel N
+    add x0,x0,4   				// Siguiente pixel
+    sub x15,x15,1    			// Decrementar contador X
+    cbnz x15,loop6c  			// Si no terminó la fila, salto
+		
+		sub x14,x14,1    			// Decrementar contador Y
+		msub x0,x19,x18,x0			//vuelvo al princio de la linea que estoy pintado x0=x0-x1*4
+		msub x0,x21,x19,x0  	//x0=x0+640*4
+		add x18,x18,1
+	  
+	  cbnz x14,loop5c  			// Si no es la última fila, saltostur w11,[x20]
+
+		mov x0,x20
+ret
+
+
+//--------------------------------------------------------FIN-TRIANGULO-RECTANGULO-4--------------------------------------------------------------//
 
 //--------------------------------------------------------CIRCULO--------------------------------------------------------------//
 	circulo:				//x14=X0  x15=Y0	x16=X1 x17=Y1		x23=Xsize x24=Ysize

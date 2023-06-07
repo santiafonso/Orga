@@ -1,3 +1,4 @@
 [ZoneTransfer]
 ZoneId=3
-HostUrl=https://cdn.discordapp.com/attachments/974073988538064956/1114329395092525136/app.s
+ReferrerUrl=vscode-file://vscode-app/c:/Users/Santi/AppData/Local/Programs/Microsoft%20VS%20Code/resources/app/out/vs/code/electron-sandbox/workbench/workbench.html
+HostUrl=file://wsl.localhost/Ubuntu/home/santiago/Orga_tp/app.s
