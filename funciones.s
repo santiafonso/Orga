@@ -307,18 +307,19 @@ ret
 //--------------------------------------------------------FIN-CIRCULO--------------------------------------------------------------//
 
 //--------------------------------------------------------CIRCULO-FONDO--------------------------------------------------------------//
-	circuloF:				//x14=X0  x15=Y0	x16=X1 x17=Y1		x23=Xsize x24=Ysize
-			mov x14,xzr
+	circuloF:					//x14=X0  x15=Y0	x16=X1 x17=Y1		x23=Xsize x24=Ysize
+			
+			mov x14,xzr		
 			mov x15,xzr
 			mov x16,xzr
 			mov x17,xzr
 			mov x23,xzr
 			mov x24,xzr
-			mov x25,xzr
-			mov x26,xzr
+			mov x25,xzr		//aux
+			mov x26,xzr		//aux
+
 			mov x14,x4		//guardo mis coordenadas del centro
 			mov x15,x3
-
 
 			sub x16,x4,x1	//x16 y x17 tienen mis coordenadas del incio del cuadrado
 			sub x17,x3,x1
@@ -351,6 +352,7 @@ ret
    		add x0,x0,4  			// Siguiente pixel
 			add x16,x16,1			//siguiente coordenada en x
     	sub x23,x23,1  	  // Decrementar contador de mi diametro
+
 		
     	cbnz x23,loop8F 		// Si no terminó la fila, salto
 		
@@ -393,5 +395,26 @@ ret
 			b colorearF				//si es menor lo pinto
 		
 //--------------------------------------------------------FIN-CIRCULO-FONDO--------------------------------------------------------------//
+
+//
+
+			coordenadas:
+			sub sp,sp, #8  //elimino mis 2 ultimos elementos de la pila
+			str x28,[sp,#0]	//guardo x3 y x4
+
+			mov x27,x0
+			sub x27,x27,640
+			add x3,x3,1
+			b.lt coordenadas
+			mov x4,x0
+			ldr x28,[sp,#0]  				//cargo x3 y x4 a sus valores originales y decremento la pila en 2  
+			add sp,sp, #8 
+			ret
+
+
+
+
+
+
 .endif
   

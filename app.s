@@ -4,12 +4,17 @@
 	.equ SCREEN_WIDTH,   640
 	.equ SCREEN_HEIGH,   480
 	.equ BITS_PER_PIXEL, 20 
-    .equ HALF_HEIGH,    240
-    .equ HALF_WIDTH,    320
+  .equ HALF_HEIGH,    240
+  .equ HALF_WIDTH,    320
     
 	.equ GPIO_BASE,    0x3f200000
 	.equ GPIO_GPFSEL0, 0x00
 	.equ GPIO_GPLEV0,  0x34
+
+	.equ key_w, 0x2
+	.equ key_a, 0x4
+	.equ key_s, 0x8
+	.equ key_d, 0x10
 
 	.globl main
 
@@ -76,23 +81,23 @@ main:
 			bl direccion								//calcula el punto donde empieza a dibujar
 			bl cuadrado
 
-
+			mov x0,0x1ffff
 			mov x1,100									//radio
-			mov x3,100									//centro
-			mov x4,100		
+			mov x3,0									//centro
+			mov x4,0		
 			movz x11, 0xff, lsl 16	    //color rojo
-      movk x11, 0x3333, lsl 00 
-
+      movk x11, 0xffff, lsl 00 
+			bl coordenadas
 			bl direccion
 			bl circulo
  
 	
-			mov x1,50									//radio
+			mov x1,50										//radio
 			mov x3,100									//centro
 			mov x4,100		
-			movz x11, 0xff, lsl 16	    //color rojo
+			movz x11, 0xff, lsl 16	    //color circulo
       movk x11, 0xafff, lsl 00 
-			movz x10, 0x00, lsl 16	    //color rojo
+			movz x10, 0x00, lsl 16	    //color fondo
       movk x10, 0x0000, lsl 00 
 			bl direccion
 			bl circuloF
@@ -137,8 +142,49 @@ main:
       movk x11, 0xfaff, lsl 00 
 			bl direccion								//calcula el punto donde empieza a dibujar
 			bl triangulo
+			b Leer
+//------------------------------------------ Ejecucion W ------------------------------------------//
 
 
+	ejec_w:
+
+			mov x1,50										//radio
+			mov x2,50
+			mov x3,100									//centro
+			mov x4,100		
+			movz x11, 0xff, lsl 16	    //color circulo
+      movk x11, 0xaf00, lsl 00 
+			movz x10, 0x00, lsl 16	    //color fondo
+      movk x10, 0x0000, lsl 00 
+			bl direccion
+			bl cuadrado
+
+		
+
+	b Leer
+
+//------------------------------------------ Fin Ejecucion W ------------------------------------------//
+
+//------------------------------------------ Input ------------------------------------------//
+
+
+	Leer:
+		mov x9, GPIO_BASE					//Seteo x9 en la direccion base de gpio
+		
+		// Setea gpios 0 - 9 como lectura
+		str wzr, [x9, GPIO_GPFSEL0]
+
+		// Lee el estado de los GPIO 0 - 31
+		ldr w10, [x9, GPIO_GPLEV0]
+		
+		and w11, w10, key_w					//Mascara de w
+
+		cmp w11, key_w
+		beq ejec_w
+		b Leer
+
+
+//------------------------------------------ Fin Input ------------------------------------------//
 
 //-----------------------------------------------------FIN-----------------------------------------------//
 
