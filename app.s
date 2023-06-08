@@ -82,6 +82,7 @@ main:
 			mov x4,100		
 			movz x11, 0xff, lsl 16	    //color rojo
       movk x11, 0x3333, lsl 00 
+
 			bl direccion
 			bl circulo
  
@@ -90,9 +91,11 @@ main:
 			mov x3,100									//centro
 			mov x4,100		
 			movz x11, 0xff, lsl 16	    //color rojo
-      movk x11, 0xaf00, lsl 00 
+      movk x11, 0xafff, lsl 00 
+			movz x10, 0x00, lsl 16	    //color rojo
+      movk x10, 0x0000, lsl 00 
 			bl direccion
-			bl circulo
+			bl circuloF
 
 		//-----------------------------------TRIANGULOS--------------------------------------------//
 
@@ -131,7 +134,7 @@ main:
 			mov x3,51										//seteo de donde quiero que empieze a dibujar  X3=Y X4=X 
 			mov x4,350
 			movz x11, 0xff, lsl 16	    //color rojo
-      movk x11, 0xffff, lsl 00 
+      movk x11, 0xfaff, lsl 00 
 			bl direccion								//calcula el punto donde empieza a dibujar
 			bl triangulo
 
